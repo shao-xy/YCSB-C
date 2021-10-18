@@ -33,7 +33,7 @@ class BasicDB : public DB {
   ofstream timeCollector;
   BasicDB(int clientNumPara, string workPathPara){
     clientNum = clientNumPara;
-    workPath = workPathPara+to_string(clientNum)+"/"+"usertable"+to_string(clientNum);
+    workPath = workPathPara+to_string(clientNum)+"/ycsbzipf/usertable"+to_string(clientNum);
   	timeFilePath = "./timeCollector/client"+to_string(clientNum);
   }
 
