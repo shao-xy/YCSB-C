@@ -66,7 +66,8 @@ class BasicDB : public DB {
 	gettimeofday(&opEnd, NULL);
 	timeCostMs = 1000*(opEnd.tv_sec-opStart.tv_sec)+(opEnd.tv_usec-opStart.tv_usec)/1000.0;
     //cout << "Read cost: " << timeCostMs <<endl;
-	timeCollector <<  "Read cost: " << timeCostMs << "ms" << endl;
+	//timeCollector <<  "Read cost: " << timeCostMs << "ms" << endl;
+	timeCollector << timeCostMs << endl;
 	readFile.close();
     /*if (fields) {
       cout << " [ ";
@@ -140,6 +141,15 @@ class BasicDB : public DB {
 
  private:
   std::mutex mutex_;
+};
+
+class BasicMultiDirDB : public BasicDB {
+ public:
+  BasicMultiDirDB(int clientNumPara, string workPathPara) : BasicDB(clientNumPara, workPathPara) {
+	clientNum = clientNumPara / 100;
+    workPath = workPathPara+to_string(clientNum)+"/ycsbzipf/usertable"+to_string(clientNumPara);
+  	timeFilePath = "./timeCollector/client"+to_string(clientNumPara);
+  }
 };
 
 } // ycsbc

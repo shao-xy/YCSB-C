@@ -25,6 +25,10 @@ DB* DBFactory::CreateDB(utils::Properties &props) {
     int clientNumber = stoi(props["clientNum"]);
     string workPath = "/mnt/ceph-client-";
     return new BasicDB(clientNumber, workPath);
+  } else if (props["dbname"] == "multi_dir") {
+    int clientNumber = stoi(props["clientNum"]);
+    string workPath = "/mnt/ceph-client-";
+    return new BasicMultiDirDB(clientNumber, workPath);
   } else if (props["dbname"] == "lock_stl") {
     return new LockStlDB;
   } else if (props["dbname"] == "redis") {
