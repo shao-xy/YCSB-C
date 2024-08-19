@@ -218,6 +218,7 @@ void UsageMessage(const char *command) {
   cout << "  -db dbname: specify the name of the DB to use (default: basic)" << endl;
   cout << "  -P propertyfile: load properties from the given file. Multiple files can" << endl;
   cout << "  -n number: client" << endl;
+  cout << "  -mode r:run l:load" << endl;
   cout << "                   be specified, and will be processed in the order specified" << endl;
 }
 

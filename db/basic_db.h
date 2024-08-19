@@ -11,8 +11,10 @@
 
 #include "core/db.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <mutex>
 #include "core/properties.h"
 #include <sys/stat.h>
@@ -33,7 +35,7 @@ class BasicDB : public DB {
   ofstream timeCollector;
   BasicDB(int clientNumPara, string workPathPara){
     clientNum = clientNumPara;
-    workPath = workPathPara+to_string(clientNum)+"/"+"usertable"+to_string(clientNum);
+    workPath = workPathPara+to_string(clientNum)+"/ycsbzipf/usertable"+to_string(clientNum);
   	timeFilePath = "./timeCollector/client"+to_string(clientNum);
   }
 
@@ -41,7 +43,7 @@ class BasicDB : public DB {
 
     std::lock_guard<std::mutex> lock(mutex_);
     cout << workPath <<endl;
-	if(timeCollector!=NULL){
+	if(timeCollector){
 		timeCollector.close();
 	}
 	timeCollector.open(timeFilePath,ios::out|ios::trunc);
@@ -57,8 +59,10 @@ class BasicDB : public DB {
     timeval opStart, opEnd;
 	double timeCostMs;
 	ifstream readFile;
+	//char _buffer[4000];
 	gettimeofday(&opStart, NULL);
     readFile.open(workPath+"/"+key, ios::in);
+	//readFile>>_buffer;
 	gettimeofday(&opEnd, NULL);
 	timeCostMs = 1000*(opEnd.tv_sec-opStart.tv_sec)+(opEnd.tv_usec-opStart.tv_usec)/1000.0;
     //cout << "Read cost: " << timeCostMs <<endl;
@@ -111,8 +115,11 @@ class BasicDB : public DB {
     timeval opStart, opEnd;
 	double timeCostMs;
     ofstream insertFile;
+    char _buffer[4000]={0};
+    memset(_buffer,'$',3999);
 	gettimeofday(&opStart, NULL);
     insertFile.open(workPath+"/"+key, ios::out);
+    insertFile << _buffer << endl;
 	gettimeofday(&opEnd, NULL);
 	timeCostMs = 1000*(opEnd.tv_sec-opStart.tv_sec)+(opEnd.tv_usec-opStart.tv_usec)/1000.0;
     //cout << "Insert cost: " << timeCostMs <<endl;
